@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>Travelguide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nav-bar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+</head>
+<body>
+    <div id="navbar">
+        {% block navbar %}
+            <div class="nav-content">
+                <ul class="nav">
+                    <li><a class="logo" href="{{ url_for('index') }}">jaunt</a></li>
+                    {% if session.get('profil_id') %}
+                        <li style="float:right"><a href="{{ url_for('logout') }}">Logout</a></li>
+                        <li style="float:right"><a href="{{ url_for('profil') }}">Profil</a></li>
+                        <li style="float:right"><a href="{{ url_for('staedteliste')}}">Orte</a></li>
+                        <li style="float:right"><a href="{{ url_for('map_view')}}">Karte</a></li>
+
+                        {% if session['rolle'] == 'admin' %}
+                            <li style="float:right"><a href="{{ url_for('admin') }}">Admin-Bereich</a></li>
+                        {% endif %}
+                    {% else %}
+                        <li style="float:right"><a href="{{ url_for('register')}}">Registrieren</a></li>
+                        <li style="float:right"><a href="{{ url_for('login')}}">Login</a></li>
+                        <li style="float:right"><a href="{{ url_for('staedteliste')}}">Orte</a></li>
+                        <li style="float:right"><a href="{{ url_for('map_view')}}">Karte</a></li>
+                    {% endif %}
+
+                </ul><br>
+            </div>
+        {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <input type="checkbox" id="flash-toggle" checked>
+                    <div class="flash-messages-container">
+                        <div class="overlay"></div>
+                        <div class="flash-messages" id="flash-message">
+                            <label for="flash-toggle" class="close-button">&times;</label>
+                            <ul>
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

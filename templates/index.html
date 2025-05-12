@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}Homepage{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class="start">
+        <div class="backtext">
+            <p><b>ENTDECKE DIE WELT</b></p>
+            <p><b>MIT jaunt!</b></p>
+            <div class="search-container">
+                <form action="" method="get">
+                    <input list="stadt" type="search" name="stadt" placeholder="Search..."><button type="submit"><i class="fa fa-search"></i></button>
+                    <datalist id="stadt">
+                        {% for stadt in stadt %}
+                            <option value="{{ stadt[0] }}">{{ stadt[0] }}</option>
+                        {% endfor %}
+                    </datalist>
+                </form>
+            </div>
+        </div>
+    </div>
+     {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+{% endblock %}

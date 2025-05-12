@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}Registrierung{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'anmeldung.css') }}">
+{% endblock %}
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <h1>REGISTRIEREN</h1>
+    <hr><br>
+    <form method="POST" class="login-form">
+        <label for="vorname"><b>Vorname</b></label>
+        <input type="text" placeholder="Vornamen eingeben" name="vorname" required>
+        <label for="nachname"><b>Nachname</b></label>
+        <input type="text" placeholder="Nachnamen eingeben" name="nachname" required>
+        <label for="nutzername"><b>Benutzername</b></label>
+        <input type="text" placeholder="Benutzernamen eingeben" name="nutzername" required>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <label for="email"><b>Email</b></label>
+        <input type="email" placeholder="Email eingeben" name="email" required>
+        {% if error1 %}
+            <p style="color: red;">{{ error1 }}</p>
+        {% endif %}
+        {% if error2 %}
+            <p style="color: red;">{{ error2 }}</p>
+        {% endif %}
+        <label for="passwort"><b>Passwort</b></label>
+        <input type="password" placeholder="Passwort eingeben" name="passwort" required>
+        <label for="passwort2"><b>Passwort wiederholen</b></label>
+        <input type="password" placeholder="Passwort wiederholen" name="passwort2" required>
+        <label for="nationalität"><b>Nationalität (optional)</b></label>
+        <input type="text" placeholder="Nationalität eingeben" name="nationalität">
+        <label for="geburtsdatum"><b>Geburtsdatum (optional)</b></label>
+        <input type="date" placeholder="Geburtsdatum auswählen" name="geburtsdatum">
+        <input type="submit" value="Registrieren">
+    </form>
+{% endblock %}

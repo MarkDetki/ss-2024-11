@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+{% block title %}Admin-Bereich{% endblock %}
+{% block head %}
+    {{ super() }}
+    <meta name="viewpoint" content="width=device-width, initial-scale=1.8">
+    <script>
+        function confirmDeletion(event) {
+            if (!confirm("Sind Sie sich sicher, dass Sie löschen wollen?")) {
+                event.preventDefault();
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'table.css') }}">
+{% endblock %}
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    {{ super() }}
+    <h1>Nutzerverwaltung</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nutzername</th>
+                <th>E-Mail</th>
+                <th>Nachname</th>
+                <th>Vorname</th>
+                <th>Adresse</th>
+                <th>Nationalität</th>
+                <th>Geburtsdatum</th>
+                <th>Rolle</th>
+                <th> </th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user[0] }}</td>
+                <td>{{ user[3] }}</td>
+                <td>{{ user[2] }}</td>
+                <td>{{ user[5] }}</td>
+                <td>{{ user[4] }}</td>
+                <td>{{ user[8] }}</td>
+                <td>{{ user[6] }}</td>
+                <td>{{ user[7] }}</td>
+                <td>{{ user[1] }}</td>
+                <td>
+                    <a href="{{ url_for('user_bearbeiten', profil_id=user[0]) }}">
+                        <input type="submit" value="Bearbeiten">
+                    </a>
+                </td>
+                <td>
+                    <form id="deleteform" action="/admin/delete_profile" method="POST" onsubmit="confirmDeletion(event)">
+                        <input type="hidden" name="profil_id" value="{{ user[0] }}">
+                        <input type="submit" value="Profil löschen">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <h1>Datenverwaltung</h1>
+    <div class="datenverwaltung">
+        <form method="POST" enctype="multipart/form-data">
+            <label for="Stadt"><b>Stadt:</b></label>
+            <input type="text" placeholder="neue Stadt eingeben" name="neue_stadt">
+            <label for="land">Land:</label>
+            <select id="land" name="land">
+                {% for land in land %}
+                    <option value="{{ land[0] }}" {% if land[1] == land %}selected{% endif %}>{{ land[1] }}</option>
+                {% endfor %}
+            </select><br>
+            <label for="Breitengrad">Breitengrad:</label>
+            <input type="text" placeholder="Breitengrad eingeben" name="breitengrad">
+            <label for="Laengengrad">Längengrad:</label>
+            <input type="text" placeholder="Längengrad eingeben" name="laengengrad"><br>
+            <br>
+            <label for="Land"><b>Land:</b></label>
+            <input type="text" placeholder="neues Land eingeben" name="neues_land">
+            <label for="Einwohneranzahl">Einwohneranzahl:</label>
+            <input type="text" placeholder="Einwohneranzahl eingeben" name="einwohneranzahl">
+            <label for="landimg">Bild:</label>
+            <input type="file" id="landimg" name="landimg">
+            <br><br>
+            <input type="submit" value="Speichern">
+        </form>
+    </div>
+
+    <br>
+    <h1>Gemeldete Beiträge</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Text</th>
+                <th>Stadt</th>
+                <th>Profil</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gemeldet in gemeldet %}
+            <tr>
+                <td>{{ gemeldet[4] }}</td>
+                <td>{{ gemeldet[0] }}</td>
+                <td>{{ gemeldet[1] }}</td>
+                <td>{{ gemeldet[2] }}</td>
+                <td>{{ gemeldet[3] }}</td>
+                <td>
+                    <a href="{{ url_for('beitrag', stadt_id=gemeldet[5]) }}">
+                        <input type="submit" value="Anzeigen">
+                    </a>
+                    <form id="deleteform" action="/admin/delete_profile" method="POST" onsubmit="confirmDeletion(event)">
+                        <a href="{{ url_for('delete_beitrag', beitrag_id=gemeldet[4]) }}">
+                            <input type="submit" value="Beitrag Löschen">
+                        </a>
+                    </form>
+
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table><br><br>
+{% endblock %}

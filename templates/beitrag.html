@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+{% block title %}Beiträge{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='beitraege.css') }}">
+{% endblock %}
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    {{ super() }}
+    <h1>{{ stadtname[1] }}</h1>
+
+    <div class="bewertung">
+        <form action="{{ url_for('beitrag', stadt_id=stadtname[0]) }}" method="POST" enctype="multipart/form-data" style="font-family: Arial, sans-serif">
+            <label for="titel">Titel:</label><br>
+            <input type="text" id="titel" name="titel" required>
+            <br><br>
+            <label for="text">Text:</label><br>
+            <textarea id="text" name="text" required></textarea>
+            <br><br>
+            <label for="bewertung">Sternebewertung:</label>
+            <div class="rating">
+                <input type="radio" id="star5" name="bewertung" value="5">
+                <label for="star5" title="5 Sterne" class="fa fa-star"></label>
+                <input type="radio" id="star4" name="bewertung" value="4">
+                <label for="star4" title="4 Sterne" class="fa fa-star"></label>
+                <input type="radio" id="star3" name="bewertung" value="3">
+                <label for="star3" title="3 Sterne" class="fa fa-star"></label>
+                <input type="radio" id="star2" name="bewertung" value="2">
+                <label for="star2" title="2 Sterne" class="fa fa-star"></label>
+                <input type="radio" id="star1" name="bewertung" value="1">
+                <label for="star1" title="1 Stern" class="fa fa-star"></label>
+            </div>
+            <br>
+            <label for="bilder">Bilder:</label><br>
+            <input type="file" id="bilder" name="bilder" multiple>
+            <br><br>
+            <button type="submit">Beitrag erstellen</button>
+        </form>
+    </div>
+
+    <h2>Alle Beiträge</h2>
+    {% for beitrag, kommentare in beitraege_mit_kommentaren %}
+        <div class="beitrag">
+            <div class="user-info">
+                <img src="{{ url_for('static', filename=beitrag[6]) }}" alt="{{ beitrag[5] }}" width="50px" height="50px" style="border-radius: 50%; object-fit: cover">
+                <p><b>{{ beitrag[5] }}</b></p>
+            </div><br>
+            <div class="rating readonly">
+                {% for i in range(1, 6) %}
+                    <span class="fa fa-star {% if beitrag[4] >= i %}checked{% endif %}"></span>
+                {% endfor %}
+            </div>
+            <h3>{{ beitrag[1] }}</h3>
+            <p>{{ beitrag[2] }}</p>
+            {% if beitrag[3] %}
+                <div class="bilder">
+                    {% for bild in beitrag[3].split(',') %}
+                        <img src="{{ url_for('static', filename=bild) }}" alt="{{ beitrag[3] }}" width="150px">
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="like">
+                <form action="{{ url_for('beitrag', stadt_id=stadtname[0]) }}" method="POST">
+                    <input type="hidden" name="beitrag_id" value="{{ beitrag[0] }}">
+                    <button type="submit" name="like" value="like" {% if beitrag[8] %}liked{% endif %}>
+                        <i class="fa fa-thumbs-up"></i> ({{ beitrag[7] }})
+                    </button>
+                </form>
+            </div>
+
+            <form action="{{ url_for('add_favorite', item_type='beitrag', item_id=beitrag[0]) }}" method="post">
+                <button type="submit">Zu Favoriten hinzufügen</button>
+            </form>
+            <form action="{{ url_for('remove_favorite', item_type='beitrag', item_id=beitrag[0]) }}" method="post">
+                <button type="submit">Aus Favoriten entfernen</button>
+            </form>
+            {% if session['profil_id'] == beitrag[9] or session['rolle'] == 'admin' %}
+            <form action="{{ url_for('edit_post', beitrag_id=beitrag[0]) }}" method="get">
+                <button type="submit">Bearbeiten</button>
+            </form>
+            {% endif %}
+            <div class="interaction-buttons">
+            <form action="{{ url_for('report_post', beitrag_id=beitrag[0]) }}" method="post" style="display:inline;">
+                <button type="submit" style="background-color: grey; color: white;">Melden</button>
+            </form>
+            </div>
+
+            {% if session['profil_id'] == beitrag[9] or session['rolle'] == 'admin' %}
+            <form action="{{ url_for('delete_beitrag', beitrag_id=beitrag[0]) }}" method="post">
+                <input type="hidden" name="stadt_id" value="{{ stadtname[0] }}">
+                <button type="submit" style="background-color: red; color: white;">Beitrag löschen</button>
+            </form>
+
+            {% endif %}
+            <h4>Kommentare</h4>
+            <div class="kommentare">
+                {% for kommentar in kommentare %}
+                    <div class="kommentar">
+                        <div class="user-info">
+                            <img src="{{ url_for('static', filename=kommentar[3]) }}" alt="{{ kommentar[2] }}" width="30px" height="30px" style="border-radius: 50%; object-fit: cover">
+                            <p><b>{{ kommentar[2] }}</b></p>
+                        </div>
+                        <p>{{ kommentar[1] }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <form action="{{ url_for('kommentar') }}" method="POST">
+                <input type="hidden" name="beitrag_id" value="{{ beitrag[0] }}">
+                <input type="hidden" name="stadt_id" value="{{ stadtname[0] }}">
+                <textarea name="text" placeholder="Kommentieren..." required></textarea>
+                <button type="submit">Kommentar hinzufügen</button>
+            </form>
+        </div>
+    {% endfor %}
+{% endblock %}

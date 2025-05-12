@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}Berbeitung{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'anmeldung.css') }}">
+{% endblock %}
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    {{ super() }}
+<body>
+<div class="hero">
+    <div class="content">
+        <h1>Nutzerprofil verwalten</h1>
+        <form method="post" class="login-form">
+            <label for="nutzername">Nutzername ändern:</label>
+            <input type="text" id="nutzername" name="nutzername" value="{{ user[3] }}" required><br>
+            <label for="email">Email ändern:</label>
+            <input type="email" id="email" name="email" value="{{ user[2] }}" required><br>
+            <label for="nachname">Nachname ändern:</label>
+            <input type="text" id="nachname" name="nachname" value="{{ user[5] }}" required><br>
+            <label for="vorname">Vorname ändern:</label>
+            <input type="text" id="vorname" name="vorname" value="{{ user[4] }}" required><br>
+            <label for="adresse">Adresse ändern:</label>
+            <input type="text" id="adresse" name="adresse" value="{{ user[8] }}" ><br>
+            <label for="nationalität">Nationalität ändern:</label>
+            <input type="text" id="nationalität" name="nationalität" value="{{ user[6] }}" ><br>
+            <label for="geburtsdatum">Geburtsdatum ändern:</label>
+            <input type="date" id="geburtsdatum" name="geburtsdatum" value="{{ user[7] }}" ><br>
+            <label for="rolle">Rolle:</label>
+            <select id="rolle" name="rolle" required>
+                <option value="nutzer" {% if user[1] == 'nutzer' %}selected{% endif %}>Nutzer</option>
+                <option value="admin" {% if user[1  ] == 'admin' %}selected{% endif %}>Admin</option>
+            </select><br>
+            <input type="submit" value="Speichern">
+        </form>
+
+    </div>
+</div>
+</body>
+{% endblock %}

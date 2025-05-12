@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block title %}Profil{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style>
+        .container {
+            text-align: center;
+            font-family: Arial, sans-serif;
+
+        }
+        .stadtliste {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .stadtliste a {
+            margin: 5px 0;
+            text-decoration: none;
+            color: #000;
+            font-size: 1.2em;
+        }
+        .land-card img {
+            width: auto;
+            height: 500px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        button {
+            display: inline-block;
+            padding: 5px 5px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+    </style>
+{% endblock %}
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    {{ super() }}
+    <h1>{{ land[1] }}</h1>
+    <p style="text-align: center; font-family: Arial, sans-serif">{{ land[2] }} Einwohner</p>
+
+    <div class="container">
+        <div class="land-card">
+            <img src="{{ url_for('static', filename=land[3]) }}" alt="{{ land[1] }}">
+        </div>
+        <div class="stadtliste">
+            <h2>Städte</h2>
+            {% for stadt in staedte %}
+                <a href="{{ url_for('beitrag', stadt_id=stadt[0]) }}">{{ stadt[1] }}</a>
+                <form action="{{ url_for('add_favorite', item_type='stadt', item_id=stadt[0]) }}" method="post">
+                    <button type="submit">Zu Favoriten hinzufügen</button>
+                </form>
+                <form action="{{ url_for('remove_favorite', item_type='stadt', item_id=stadt[0]) }}" method="post">
+                    <button type="submit">Aus Favoriten entfernen</button>
+                </form>
+                <br>
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+{% endblock %}

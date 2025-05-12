@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %}Beitrag bearbeiten{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='beitraege.css') }}">
+{% endblock %}
+{% block content %}
+    <h1>Beitrag bearbeiten</h1>
+    <div class="bewertung">
+        <form action="{{ url_for('edit_post', beitrag_id=beitrag_id) }}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="stadt_id" value="{{ post_data[4] }}">
+
+            <div class="form-group">
+                <label for="titel">Titel:</label><br>
+                <input type="text" id="titel" name="titel" value="{{ post_data[1] }}" required class="form-control">
+            </div><br>
+
+            <div class="form-group">
+                <label for="text">Text:</label><br>
+                <textarea id="text" name="text" required class="form-control">{{ post_data[2] }}</textarea>
+            </div><br>
+
+            <div class="form-group">
+                <label for="bewertung">Sternebewertung:</label>
+                <div class="rating">
+                    {% for i in range(5, 0, -1) %}
+                        <input type="radio" id="star{{ i }}" name="bewertung" value="{{ i }}" {% if post_data[3] == i %}checked{% endif %}>
+                        <label for="star{{ i }}" title="{{ i }} Sterne" class="fa fa-star"></label>
+                    {% endfor %}
+                </div>
+            </div><br>
+
+            <button type="submit" class="btn btn-primary">Beitrag aktualisieren</button>
+        </form>
+    </div>
+{% endblock %}
+

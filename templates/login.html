@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'anmeldung.css') }}">
+{% endblock %}
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    {{ super() }}
+    <h1>LOGIN</h1>
+    <hr><br>
+    <form method="POST" class="login-form">
+        <label for="email"><b>Email</b></label><br>
+        <input type="email" placeholder="Email eingeben" name="email" required>
+        <label for="passwort"><b>Passwort</b></label><br>
+        <input type="password" placeholder="Passwort eingeben" name="passwort" required>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        {% if error1 %}
+            <p style="color: red;">{{ error1 }}</p>
+        {% endif %}
+        <input type="submit" value="Einloggen">
+        <p>Noch kein Konto? <a href="{{ 'register' }}">Jetzt Registrieren</a></p>
+    </form>
+{% endblock %}

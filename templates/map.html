@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% block title %}Karte{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .land-card {
+            width: 30%;
+            margin: 10px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .land-card a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .landimg {
+            height: 350px;
+            width: 100%;
+            overflow: hidden;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .landimg img {
+            height: 100%;
+            width: 100%;
+            transition: transform 0.7s ease, filter 0.7s ease;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .landimg img:hover {
+            transform: scale(1.2);
+            filter: brightness(70%);
+            z-index: 1;
+        }
+
+        .land-card h2 {
+            margin: 10px 0;
+        }
+    </style>
+{% endblock %}
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    {{ super() }}
+    <h1>Karte</h1>
+
+    <div class="container">
+        <div id="map"></div>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <script>
+            // Karte initialisieren
+            var map = L.map('map').setView([51.505, -0.09], 2);
+
+            // OpenStreetMap Layer hinzufügen
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Städte mit Koordinaten und Links
+            var cities = {{ cities | tojson | safe }};
+
+            // Punkte für jede Stadt hinzufügen
+            cities.forEach(function (city) {
+                var marker = L.marker(city.coords).addTo(map);
+                marker.bindPopup(`<a href="${city.link}" target="_blank">${city.name}</a>`);
+            });
+        </script>
+    </div>
+
+{% endblock %}

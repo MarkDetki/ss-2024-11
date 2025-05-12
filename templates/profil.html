@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block title %}Profil{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='profil.css') }}">
+{% endblock %}
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    {{ super() }}
+    <div class="container">
+        <div>
+            {% if nutzer[5] %}
+                <img src="{{ url_for('static', filename=nutzer[5]) }}" alt="Profilbild" width="150px" height="150px" style="display: block; margin: 0 auto; object-fit: cover; max-width: 200px; max-height: 200px; border-radius: 50%; margin-bottom: 20px;">
+            {% else %}
+                <img src="{{ url_for('static', filename='default.png') }}" alt="Profilbild" width="150px" height="150px" style="display: block; margin: 0 auto; object-fit: cover; max-width: 200px; max-height: 200px; border-radius: 50%; margin-bottom: 20px;">
+            {% endif %}
+            <h2>{{ nutzer[3] }}</h2>
+            <p>{{ nutzer[0] }} {{ nutzer[1] }}</p>
+            <p>{{ nutzer[2] }}</p>
+            <p>{{ nutzer[4] }}</p>
+        </div>
+
+        <div>
+            <form action="/profil" method="POST" enctype="multipart/form-data" class="login-form">
+                    <label for="vorname">Vorname:</label>
+                    <input type="text" name="vorname" value="{{ nutzer[0] }}" required>
+
+                    <label for="nachname">Nachname:</label>
+                    <input type="text" name="nachname" value="{{ nutzer[1] }}" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" value="{{ nutzer[2] }}" required>
+
+                    <label for="nutzername">Nutzername:</label>
+                    <input type="text" name="nutzername" value="{{ nutzer[3] }}" required>
+
+                    <label for="adresse">Adresse:</label>
+                    <input type="text" name="adresse" value="{{ nutzer[4] }}">
+
+                    <label for="profile_image">Profilbild hochladen:</label>
+                    <input type="file" id="profile_image" name="profile_image">
+
+                <button type="submit">Speichern</button>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <h1>Favorisierte Beiträge</h1>
+        <ul>
+            {% for beitrag, kommentare in favorisierte_beitraege_mit_kommentaren %}
+            <div class="beitrag">
+                <div class="user-info">
+                    <img src="{{ url_for('static', filename=beitrag[6]) }}" alt="{{ beitrag[5] }}" width="50px" height="50px" style="border-radius: 50%; object-fit: cover">
+                    <p><b>{{ beitrag[5] }}</b></p>
+                </div><br>
+                <div class="rating readonly">
+                    {% for i in range(1, 6) %}
+                        <span class="fa fa-star {% if beitrag[4] >= i %}checked{% endif %}"></span>
+                    {% endfor %}
+                </div>
+                <h3>{{ beitrag[1] }}</h3>
+                <p1>{{ beitrag[2] }}</p1>
+                {% if beitrag[3] %}
+                    <div class="bilder">
+                        {% for bild in beitrag[3].split(',') %}
+                            <br>
+                            <img src="{{ url_for('static', filename=bild) }}" alt="{{ beitrag[3] }}" width="150px">
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <!-- Kommentaranzeige hinzufügen, falls benötigt -->
+                {% if kommentare %}
+                    <div class="kommentare">
+                        <h4>Kommentare:</h4>
+                        {% for kommentar in kommentare %}
+                            <div class="kommentar">
+                                <img src="{{ url_for('static', filename=kommentar[3]) }}" alt="{{ kommentar[2] }}" width="30px" height="30px" style="border-radius: 50%; object-fit: cover">
+                                <p1><b>{{ kommentar[2] }}</b>: {{ kommentar[1] }}</p1>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            <form action="{{ url_for('remove_favorite', item_type='beitrag', item_id=beitrag[0]) }}" method="post">
+                <button type="submit">Favorit entfernen</button>
+            </form>
+            </div>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h1>Favorisierte Städte</h1>
+        <ul>
+        {% for stadt in favorisierte_staedte %}
+            <li>
+                <a href="{{ url_for('beitrag', stadt_id=stadt[0]) }}">{{ stadt[1] }}</a>
+                <form action="{{ url_for('remove_favorite', item_type='stadt', item_id=stadt[0]) }}" method="post" style="display: inline;">
+                    <button type="submit">Entfernen</button>
+                </form>
+            </li>
+
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
