@@ -1,0 +1,152 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding-top: 80px;
+    padding-bottom: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, p {
+    text-align: center;
+    margin: 20px 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+form div {
+    margin-top: 15px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="email"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="file"] {
+    display: block;
+}
+
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+ul.bild {
+    list-style: none;
+    padding: 0;
+}
+
+ul.bild li {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+img.post-image {
+    max-width: 100%;
+    margin-top: 10px;
+}
+
+div.beitrag {
+    width: 85%;
+    border: 1px solid black;
+    margin: auto;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+
+p1 {
+    text-align: left;
+    margin: 20px 0;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+.user-info img {
+    margin-right: 10px;
+}
+
+.bewertung {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+.rating input[type="radio"] {
+    display: none;
+}
+.rating label {
+    font-size: 24px;
+    color: lightgray;
+    cursor: pointer;
+}
+.rating label.fa-star:hover, label.fa-star:hover ~ label, input[type="radio"]:checked ~ label {
+    color: gold;
+}
+.fa-star {
+    font-size: 24px;
+    margin-right: 5px;
+    color: lightgray;
+}
+.fa-star.checked {
+    color: gold;
+}
+.rating.readonly {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+.rating.readonly .fa-star {
+    margin-right: 5px;
+    font-size: 24px;
+}
+.rating.readonly .fa-star.checked {
+    color: gold;
+}

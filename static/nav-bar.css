@@ -1,0 +1,47 @@
+ul.nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #eee;
+    z-index: 10;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 30px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #ccc;
+}
+
+li a.active {
+    color: white;
+    background-color: #0088d6;
+}
+
+.nav-content {
+    font-family: Arial;
+}
+
+.logo {
+    font-size: xxx-large;
+    font-family: "Arial Black";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-decoration: none;
+}
+

@@ -1,0 +1,84 @@
+div.beitrag {
+    width: 85%;
+    border: 1px solid black;
+    margin: auto;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+}
+.user-info {
+    display: flex;
+
+}
+.user-info img {
+    margin-right: 10px;
+}
+
+.bewertung {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+}
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+.rating input[type="radio"] {
+    display: none;
+}
+.rating label {
+    font-size: 24px;
+    color: lightgray;
+    cursor: pointer;
+}
+.rating label.fa-star:hover, label.fa-star:hover ~ label, input[type="radio"]:checked ~ label {
+    color: gold;
+}
+.fa-star {
+    font-size: 24px;
+    margin-right: 5px;
+    color: lightgray;
+}
+.fa-star.checked {
+    color: gold;
+}
+.rating.readonly {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+.rating.readonly .fa-star {
+    margin-right: 5px;
+    font-size: 24px;
+}
+.rating.readonly .fa-star.checked {
+    color: gold;
+}
+
+.like {
+    margin-top: 10px;
+}
+.like button {
+    background: none;
+    border: none;
+    color: #0056b3;
+    cursor: pointer;
+}
+.like button:hover {
+    color: black;
+}
+
+button[type=submit] {
+    background-color: #0088d6;
+    color: white;
+    padding: 5px 5px;
+    margin: 2px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 15%;
+    opacity: 0.9;
+}
